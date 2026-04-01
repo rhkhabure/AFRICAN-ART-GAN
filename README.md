@@ -42,7 +42,7 @@ Future improvements will focus on dataset augmentation, progressive growing, and
 
 ---
 
-## 🖼️ Generated Samples
+##  Generated Samples
 Below are grids of generated outputs at different epochs:
 
 ### Epoch 5
@@ -65,14 +65,14 @@ Below are grids of generated outputs at different epochs:
 
 ---
 
-## 📈 Evaluation
+##  Evaluation
 - **Metric**: Frechet Inception Distance (FID)  
 - **Implementation**: TorchMetrics `FrechetInceptionDistance`  
 - **Interpretation**: Lower FID = more realistic outputs. Current scores remain high, indicating room for improvement.
 
 ---
 
-## 🔮 Future Work
+##  Future Work
 - Progressive growing to higher resolutions (512×512)  
 - Larger and more diverse African art datasets  
 - Advanced GAN architectures (StyleGAN, BigGAN)  
@@ -81,4 +81,11 @@ Below are grids of generated outputs at different epochs:
 
 ---
 
-## 📂 Repository Structure
+##  Repository Structure
+├── data/                # Dataset (African art images)
+├── checkpoints/         # Saved model states
+├── samples/             # Generated images per epoch
+├── models.py            # Generator + Discriminator definitions
+├── train.py             # Training loop
+├── evaluate_fid.py      # FID computation
+└── README.md            # Project documentation
