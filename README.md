@@ -46,7 +46,7 @@ Future improvements will focus on dataset augmentation, progressive growing, and
 Below are grids of generated outputs at different epochs:
 
 ### Epoch 1
-<Figure size 800x800 with 1 Axes><img width="636" height="658" alt="image" src="https://github.com/user-attachments/assets/62a09c10-0368-43c0-846f-33f55ac2ca4a" />
+<Figure size 800x800 with 1 Axes><img width="636" height="658" alt="image" src="https://github.com/user-attachments/assets/29d63df0-a383-443b-8050-9245ee871915" />
 
 
 ### Epoch 5
@@ -55,7 +55,8 @@ Below are grids of generated outputs at different epochs:
 
 
 ### Epoch 10
-<Figure size 800x800 with 1 Axes><img width="636" height="658" alt="image" src="https://github.com/user-attachments/assets/29d63df0-a383-443b-8050-9245ee871915" />
+<Figure size 800x800 with 1 Axes><img width="636" height="658" alt="image" src="https://github.com/user-attachments/assets/62a09c10-0368-43c0-846f-33f55ac2ca4a" />
+
 
 
 ### Epoch 20
