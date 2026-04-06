@@ -1,3 +1,39 @@
+# ── Patch lightweight_gan to work without GPU ─────────────────
+import sys, importlib
+
+def patch_lightweight_gan():
+    """
+    Streamlit Cloud has no GPU. lightweight_gan calls self.cuda(rank)
+    unconditionally in LightweightGAN.__init__. We patch the class
+    after import to skip that call when no GPU is available.
+    """
+    import torch
+    if torch.cuda.is_available():
+        return   # GPU present — no patch needed
+
+    # Import the module first
+    import lightweight_gan.lightweight_gan as lgm
+
+    # Store original __init__
+    original_init = lgm.LightweightGAN.__init__
+
+    def patched_init(self, *args, **kwargs):
+        # Temporarily replace .cuda() with a no-op on this instance
+        original_init(self, *args, **kwargs)
+
+    # Patch the cuda call inside the module directly
+    original_cuda = lgm.LightweightGAN.cuda
+
+    def safe_cuda(self, rank=0):
+        if torch.cuda.is_available():
+            return original_cuda(self, rank)
+        return self   # no-op on CPU
+
+    lgm.LightweightGAN.cuda = safe_cuda
+
+patch_lightweight_gan()
+# ─────────────────────────────────────────────────────────────
+
 import streamlit as st
 import torch
 import torch.nn as nn
