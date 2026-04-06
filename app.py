@@ -1,15 +1,32 @@
 import torch
+import sys
 
 def patch_lightweight_gan():
+    """
+    lightweight_gan asserts CUDA availability at module level (line 38).
+    We must patch torch.cuda.is_available to return True DURING the import,
+    then immediately restore it. This fools the assert without affecting
+    anything else.
+    """
     if torch.cuda.is_available():
-        return
-    import lightweight_gan.lightweight_gan as lgm
-    original_cuda = lgm.LightweightGAN.cuda
-    def safe_cuda(self, rank=0):
-        if torch.cuda.is_available():
-            return original_cuda(self, rank)
-        return self
-    lgm.LightweightGAN.cuda = safe_cuda
+        return  # real GPU present, no patch needed
+
+    # Temporarily make CUDA appear available just for the import
+    original_is_available = torch.cuda.is_available
+    torch.cuda.is_available = lambda: True
+
+    try:
+        import lightweight_gan.lightweight_gan as lgm
+
+        # Now patch .cuda() so it doesn't actually try to move to GPU
+        original_cuda = lgm.LightweightGAN.cuda
+        def safe_cuda(self, rank=0):
+            return self  # no-op on CPU
+        lgm.LightweightGAN.cuda = safe_cuda
+
+    finally:
+        # Always restore the real function
+        torch.cuda.is_available = original_is_available
 
 patch_lightweight_gan()
 
