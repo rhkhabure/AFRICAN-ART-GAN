@@ -6,6 +6,73 @@
 
 This project trains a Generative Adversarial Network (GAN) to generate synthetic Artistic African fabric images. The model is trained on a dataset of approximately 1,000 African fabric images.
 
+## Methodology: A Journey Through Multiple Approaches 
+This project did not arrive at its final model in one step. Five distinct approaches were attempted, 
+each building on the lessons of the previous one. This iterative process is documented below. 
+### Approach 1 — DCGAN on African Art Images (Web Scraped) 
+**Notebook**: https://colab.research.google.com/drive/1Jc134tSt91TOTfoVDAVpn5FCRnnYRmtV  
+**Dataset**: African art images web-scraped from https://www.arakcollection.com/artworks 
+**Model**: Deep Convolutional GAN (DCGAN) — the standard baseline GAN architecture, which 
+uses convolutional layers in both the generator and discriminator. 
+**Result**: The model produced blurry, incoherent images that bore no meaningful resemblance to 
+African art. Loss values were unstable throughout training. 
+**Key lesson**: DCGAN is a well-established architecture, but struggles with artistic imagery that 
+has high visual diversity. The scraped dataset contained paintings on entirely different subjects, 
+portraits, landscapes, and abstract works, with very little visual consistency between images. A GAN 
+cannot learn a coherent visual style when the training data has no common structure. 
+## Approach 2 — StyleGAN / Progressive GAN on the Same Dataset 
+Notebook: https://colab.research.google.com/drive/12hHMaFn9jQzT4wT5yqLoG1wLkYs1qEO 
+**Dataset**: Same web-scraped African art images 
+**Model**: StyleGAN with progressive growing — a more powerful architecture that builds images 
+at increasing resolutions stage by stage, which generally produces sharper outputs than DCGAN. 
+Result: Marginally better than DCGAN, the outputs were slightly less blurry and showed some 
+colour coherence, but still failed to produce recognisable or meaningful images. 
+
+**Key lesson**: Upgrading the model architecture alone was not sufficient. The fundamental 
+The problem was the dataset: a collection of diverse paintings with different subjects, styles, and 
+Compositions are too visually heterogeneous for any GAN to learn from effectively. GANs work 
+best when training images share a common structure — similar backgrounds, objects, 
+orientations, or patterns. 
+## Approach 3 — StyleGAN2-ADA Fine-tuning Attempt 
+**Notebook**: https://colab.research.google.com/drive/15KBshvNsxtECeS-BzmvZhffGUAxV4jS4 
+**Approach**: Rather than training from scratch, we attempted to fine-tune a pretrained 
+StyleGAN2-ADA model (trained on the MetFaces art dataset) on our African art images. 
+Transfer learning from a pretrained model is theoretically the most effective approach for small 
+datasets. 
+**Result**: The attempt was unsuccessful due to severe compatibility issues. The official NVIDIA 
+StyleGAN2-ADA repository relies on custom CUDA operations that must be compiled at 
+runtime. On Google Colab, this process repeatedly failed with errors related to CUDA versions, 
+missing modules, integer/float type mismatches, and attribute errors. Despite multiple attempts 
+with different configurations, the model could not be made to run. 
+**Key lesson**: The most theoretically powerful model is not always the most practical one. 
+Repository-level dependencies on specific hardware and software configurations make some 
+models extremely fragile in cloud environments like Colab. Reliability and reproducibility are as 
+important as raw model capability. 
+## Approach 4 — DCGAN on African Masks Dataset 
+**Notebook**: https://colab.research.google.com/drive/1XNu4E-umeCVcsRDq1ekif2CHc7t2KvNl 
+**Dataset**: ~600 African mask images from https://github.com/beodw/African-Masks 
+**Model**: DCGAN 
+**Result**: This was the first run to show genuinely promising visual output. By epoch 192 out of 
+200 (where training was cut short by Colab's GPU usage limits), the generated images had begun 
+to form recognisable mask-like shapes with visible texture. The overall structure and silhouette 
+of a mask was emerging, even though fine detail and accurate colour reproduction had not yet 
+developed. 
+**Key lesson**: Two important insights emerged from this run. First, dataset homogeneity matters 
+enormously — a dataset of 600 images of the same category of object (masks) produced far 
+better results than a dataset of thousands of diverse paintings. Second, the model was clearly 
+improving and would likely have converged to good results with more training time. The Colab 
+GPU quota limit was the only reason training stopped. 
+## Approach 5 — Lightweight GAN on African Fabric Dataset  (Final) 
+**Notebook (complete)**: 
+https://colab.research.google.com/drive/1esWK94FWMCG8xCarMk6u5kz6Pv81g5y3 
+**Dataset**: ~1,059 African fabric images from https://www.kaggle.com/datasets/mikuns/african
+fabric 
+**Model**: Lightweight GAN 
+**Result**: After 10,000 training steps (~2 hours 38 minutes on a T4 GPU), the model produced 
+images that are clearly recognisable as African fabric patterns, with coherent colour schemes, 
+repeating motifs, and textile-like structure. 
+
+
 ## Why Lightweight GAN?
 
 After experimenting with several GAN architectures including DCGAN, FastGAN, and Progressive GAN, all of which produced blurry, grey, or incoherent images, we switched to **Lightweight GAN** (proposed at ICLR 2021 by Liu et al.).
