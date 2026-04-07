@@ -24,23 +24,39 @@ The goal is to train a GAN on curated datasets and evaluate realism using **Frec
    - Generator: Deep convolutional + residual blocks  
    - Discriminator: Spectral normalisation + dropout  
 
-3. **Training Loop**  
-   - TTUR (different learning rates for G and D)  
-   - Instance noise (decayed over epochs)  
-   - Checkpoints saved every epoch  
+3. **Manual Training Loop**
+
+   We bypassed the `Trainer` class entirely and wrote a manual PyTorch training loop. This approach gives full control over each training step and       avoids all version-related API mismatches. The key components are:
+
+   - **Hinge loss** for both generator and discriminator, which is standard for GANs and more stable than binary cross-entropy
+   - **DiffAugment** applied to both real and fake images before passing them to the discriminator, using color, translation and cutout augmentations
+   - **Checkpointing every 1,000 steps** to Google Drive so training can resume after a Colab disconnect
+   - **Sample images saved every 1,000 steps** so we can visually monitor quality during training 
 
 ---
 
-##  Results
-- **Training runs**: 10, 30, and 45 epochs  
-- **FID scores**:  
-  - 10 epochs → ~720 
-  - 30 epochs → ~297  
-  - 45 epochs → ~550
+## Training Results — Interpretation
 
-Interpretation: The Generator learns colour and texture distributions, but realism remains limited.  
-Future improvements will focus on dataset augmentation, progressive growing, and advanced architectures (StyleGAN, BigGAN).
+Training ran for **10,000 steps** (~2 hours 38 minutes on a T4 GPU, approximately 1.05 steps/second).
 
+### Loss Values
+
+The two loss values reported at each checkpoint are:
+
+- **G (Generator loss)** — measures how well the generator is fooling the discriminator. Lower is better, but some fluctuation is normal and expected.
+- **D (Discriminator loss)** — measures how well the discriminator is distinguishing real from fake. A healthy discriminator loss typically stays in the range of 0.5–2.0.
+
+| Step | G Loss | D Loss | Interpretation |
+|------|--------|--------|----------------|
+| 1,000 | 0.286 | 1.636 | Early stage — discriminator dominates, generator has not learned much yet |
+| 3,000 | 1.483 | 1.125 | Generator improving — losses converging toward each other |
+| 5,000 | 1.114 | 0.867 | Training stabilising — both networks competing more evenly |
+| 7,000 | 0.443 | 0.714 | Generator gaining ground — producing more convincing images |
+| 10,000 | 2.271 | 0.304 | Generator strong — low discriminator loss suggests some mode competition |
+
+### What the Loss Trends Tell Us
+
+The general pattern shows the generator and discriminator reaching a competitive equilibrium around steps 5,000–7,000, which is when the visual quality of generated images was most consistent. The spike in generator loss at step 10,000 with a very low discriminator loss (0.304) indicates the discriminator momentarily gained an edge — this is normal GAN behaviour and does not mean the model has collapsed. The saved samples at steps 3,000, 7,000 and 10,000 were all visually usable.
 ---
 
 ##  Generated Samples
