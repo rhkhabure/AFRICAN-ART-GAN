@@ -11,6 +11,7 @@ The goal is to train a GAN on curated datasets and evaluate realism using **Frec
 - **Models**: Custom Generator (with residual blocks), Discriminator (with spectral normalisation + dropout)
 - **Training**: 75 epochs, TTUR learning rates, instance noise regularisation
 - **Evaluation**: FID score computed using TorchMetrics
+- ** Deployment** : https://african-art-gan-t4ngj82dhbba6mlqqjwn6m.streamlit.app/ link to the streamlite app
 
 ---
 
