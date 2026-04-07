@@ -81,33 +81,28 @@ The general pattern shows the generator and discriminator reaching a competitive
 ---
 
 ##  Generated Samples
-Below are grids of generated outputs at different epochs:
+Below are grids of generated outputs at different steps:
 
-### Epoch 1
-<Figure size 800x800 with 1 Axes><img width="636" height="658" alt="image" src="https://github.com/user-attachments/assets/29d63df0-a383-443b-8050-9245ee871915" />
-
-
-### Epoch 5
-<img width="530" height="530" alt="epoch_5" src="https://github.com/user-attachments/assets/2ff8f7e2-1bc5-4165-9705-e211781ba5dc" />
+### step 001000
+<IPython.core.display.Image object><img width="1034" height="1034" alt="image" src="https://github.com/user-attachments/assets/fc8cc66e-33cf-4b60-bc63-c4773659b039" />
 
 
 
-### Epoch 10
-<Figure size 800x800 with 1 Axes><img width="636" height="658" alt="image" src="https://github.com/user-attachments/assets/62a09c10-0368-43c0-846f-33f55ac2ca4a" />
+### Step 00200
+<IPython.core.display.Image object><img width="1034" height="1034" alt="image" src="https://github.com/user-attachments/assets/bdedc220-b7b6-47b5-9cbd-85b5bc39f987" />
 
 
 
-### Epoch 20
-<Figure size 800x800 with 1 Axes><img width="636" height="658" alt="image" src="https://github.com/user-attachments/assets/90fc6a6f-e264-4906-94f9-8d77be6db787" />
 
-
-### Epoch 30
-<Figure size 800x800 with 1 Axes><img width="636" height="658" alt="image" src="https://github.com/user-attachments/assets/831e3b3a-e9c0-482f-94bc-4cad25d44627" />
+### step 00500
+<IPython.core.display.Image object><img width="1034" height="1034" alt="image" src="https://github.com/user-attachments/assets/ac262616-8f39-4d56-83da-121a9720818e" />
 
 
 
-### Epoch 45
-<Figure size 800x800 with 1 Axes><img width="636" height="658" alt="image" src="https://github.com/user-attachments/assets/9f398162-f382-4c40-a24e-66c7e1c15465" />
+
+### step 01000
+<IPython.core.display.Image object><img width="1034" height="1034" alt="image" src="https://github.com/user-attachments/assets/349cabcf-a660-4fca-8632-e1c9239633d5" />
+
 
 
 ---
