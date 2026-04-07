@@ -1,19 +1,40 @@
-# African Art GAN Project
+# African Fabric GAN — Generating Synthetic African Fabric Patterns
+- Howard Muchaki 
+- Aime Muganga 
 
-##  Overview
-This project explores the use of Generative Adversarial Networks (GANs) to generate synthetic African art images.  
-The goal is to train a GAN on curated datasets and evaluate realism using **Frechet Inception Distance (FID)**.
+## Project Overview
 
----
+This project trains a Generative Adversarial Network (GAN) to generate synthetic Artistic African fabric images. The model is trained on a dataset of approximately 1,000 African fabric images.
 
-##  Project Setup
-- **Frameworks**: PyTorch, Torchvision
-- **Models**: Custom Generator (with residual blocks), Discriminator (with spectral normalisation + dropout)
-- **Training**: 75 epochs, TTUR learning rates, instance noise regularisation
-- **Evaluation**: FID score computed using TorchMetrics
-- ** Deployment** : https://african-art-gan-t4ngj82dhbba6mlqqjwn6m.streamlit.app/ link to the streamlite app
+## Why Lightweight GAN?
 
----
+After experimenting with several GAN architectures including DCGAN, FastGAN, and Progressive GAN, all of which produced blurry, grey, or incoherent images, we switched to **Lightweight GAN** (proposed at ICLR 2021 by Liu et al.).
+
+Lightweight GAN was chosen for three key reasons:
+
+1. **Designed for small datasets** — it includes built-in differentiable augmentation (DiffAugment) that prevents the discriminator from overfitting when training data is limited. With only ~1,000 images, this is critical.
+2. **No custom CUDA operations** — unlike StyleGAN2-ADA which requires compiling custom CUDA kernels and caused numerous compatibility errors on Google Colab, Lightweight GAN is pure PyTorch and installs with a single `pip install`.
+3. **Fast convergence** — the paper demonstrates convergence in a few hours on a single GPU, even at 1024×1024 resolution with sub-100 images.
+
+## How a GAN Works
+
+A GAN consists of two neural networks competing against each other:
+
+- **Generator (G)** — takes random noise as input and tries to produce images realistic enough to fool the discriminator. It never sees real images directly; it only learns from the discriminator's feedback.
+- **Discriminator (D)** — looks at both real images from the dataset and fake images from the generator, and tries to tell them apart. It outputs a score indicating how "real" an image looks.
+
+These two networks are trained simultaneously in a minimax game: the generator tries to minimize the discriminator's ability to detect fakes, while the discriminator tries to maximize it. Over time, the generator learns to produce increasingly realistic images.
+
+In Lightweight GAN specifically, the discriminator also includes a **self-supervised reconstruction branch** — it tries to reconstruct portions of real images, which helps it learn richer features even from small datasets.
+
+## Notebook Structure
+
+1. Load and explore the dataset metadata
+2. Download and prepare images
+3. Mount Google Drive and set up output folders
+4. Train the Lightweight GAN
+5. Generate and export results
+6. Save the final model
 
 ##  Training Pipeline
 1. **Data Preprocessing**  
