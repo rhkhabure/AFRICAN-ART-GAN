@@ -1,4 +1,5 @@
-
+# Generated images (don't push to GitHub)
+generated/
 
 # Python
 __pycache__/
