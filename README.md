@@ -82,55 +82,24 @@ Below are grids of generated outputs at different epochs:
 
 ---
 
-## Challenges and Weaknesses
-
-### Struggles
-Training Instability  
-GANs are notoriously unstable. Losses oscillated heavily, and sometimes the Generator lagged behind the Discriminator, producing poor samples.
-
-High FID Scores  
-Even after 75 epochs, FID remained high (>300), showing that realism was limited. Regularization tweaks (TTUR, instance noise) sometimes made diversity better but worsened FID.
-
-Mode Collapse Risk  
-At certain epochs, the Generator produced repetitive patterns instead of diverse outputs. This is a common DCGAN issue.
-
-Compute Requirements  
-Training at 256×256 resolution was already resource‑intensive. Scaling to higher resolutions (512×512) would require much more compute and memory.
-
-Dataset Limitations  
-The dataset size and diversity constrained the Generator’s ability to learn distinctive “African art” features. GANs need large, balanced datasets to capture style.
-
-- Training instability with oscillating losses.
-- High FID scores despite longer training.
-- Mode collapse leading to repetitive outputs.
-- High compute requirements for larger resolutions.
-- Dataset limitations restricting stylistic learning.
-
-### Weaknesses of DCGAN
-Architecture Simplicity  
-DCGAN is a baseline model. It lacks advanced mechanisms (style mixing, attention layers, progressive growing) that modern GANs use to capture complex features.
-
-Resolution Ceiling  
-DCGAN struggles beyond 256×256. Outputs at higher resolutions often collapse or blur.
-
-Limited Feature Control  
-Unlike StyleGAN, DCGAN doesn’t allow fine‑grained control over attributes (e.g., texture, color, style). This makes it harder to steer outputs toward specific artistic qualities.
-
-Slow Convergence  
-DCGAN often requires hundreds of epochs to produce realistic samples, and even then, results may plateau.
-
-- Simple architecture compared to modern GANs.
-- Struggles beyond 256×256 resolution.
-- No fine‑grained control over generated features.
-- Slow convergence and limited realism.
 
 
-##  Future Work
-- Progressive growing to higher resolutions (512×512)  
-- Larger and more diverse African art datasets  
-- Advanced GAN architectures (StyleGAN, BigGAN)  
-- Improved regularisation (WGAN‑GP, gradient penalty)  
-- Data augmentation for robustness  
+
+## Conclusion
+
+This notebook demonstrates the end-to-end training of a Lightweight GAN on a custom African fabric image dataset. Starting from raw image URLs, we downloaded and preprocessed approximately 1,000 images, trained a GAN for 10,000 steps, and exported both the generated samples and the trained model weights.
+
+### Key Takeaways
+
+- **Architecture choice matters for small datasets.** DCGAN, FastGAN and Progressive GAN all failed to produce coherent results on ~1,000 images. Lightweight GAN's built-in differentiable augmentation was the critical factor that made training viable at this dataset size.
+- **API compatibility requires careful debugging.** The high-level `Trainer` API had version mismatches that caused silent failures. Dropping down to a manual training loop resolved all issues and gave better control over the process.
+- **GAN training is inherently unstable.** Loss values fluctuate throughout training — this is expected behaviour, not a sign of failure. Visual inspection of generated samples at regular checkpoints is more informative than loss values alone.
+
+### Limitations and Future Work
+
+- With only 1,000 images and 10,000 training steps, the generated images show recognisable fabric-like patterns but lack the fine detail and variety of real African fabrics. Training on a larger dataset (5,000+ images) for more steps would significantly improve quality.
+- The model was trained at 256×256 resolution. Higher resolution (512×512) would produce sharper outputs but requires more GPU memory and training time.
+- Future work could explore fine-tuning from a pretrained model (such as one trained on a broader textile or art dataset) rather than training from scratch, which would reduce the data requirements considerably.
 
 ---
 
