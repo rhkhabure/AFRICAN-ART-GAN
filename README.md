@@ -5,6 +5,7 @@
 ## Project Overview
 
 This project trains a Generative Adversarial Network (GAN) to generate synthetic Artistic African fabric images. The model is trained on a dataset of approximately 1,000 African fabric images.
+You can access the deployed web app here: https://african-art-gan-t4ngj82dhbba6mlqqjwn6m.streamlit.app/
 
 ## Methodology: A Journey Through Multiple Approaches 
 This project did not arrive at its final model in one step. Five distinct approaches were attempted, 
