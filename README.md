@@ -144,7 +144,6 @@ The two loss values reported at each checkpoint are:
 | 10,000 | 2.271 | 0.304 | Generator strong — low discriminator loss suggests some mode competition |
 
 ### What the Loss Trends Tell Us
-
 The general pattern shows the generator and discriminator reaching a competitive equilibrium around steps 5,000–7,000, which is when the visual quality of generated images was most consistent. The spike in generator loss at step 10,000 with a very low discriminator loss (0.304) indicates the discriminator momentarily gained an edge — this is normal GAN behaviour and does not mean the model has collapsed. The saved samples at steps 3,000, 7,000 and 10,000 were all visually usable.
 ---
 
